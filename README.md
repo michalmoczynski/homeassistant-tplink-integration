@@ -61,10 +61,10 @@ curl --location --request POST 'https://wap.tplinkcloud.com' \
           "saturation": 100,
           "transition_period":1000
         }
-			}
-		},
-		"token": "TOKEN_RECEIVED_FROM_KASAS"
-	}
+      }
+    },
+    "token": "TOKEN_RECEIVED_FROM_KASAS"
+  }
 }'
 ```
 Parameters:
