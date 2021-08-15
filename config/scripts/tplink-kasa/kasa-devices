@@ -1,0 +1,2 @@
+json with the list of all your devices will be put here by getDevices.sh (that you need to call manually)
+from that list you can get specific device's id and preferred url to send commands to
