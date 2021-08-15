@@ -109,6 +109,14 @@ To speed up things token is being saved in a file called `kasa-token`
 -- it has sensors set that read current state of the light from the file being created after getting Kasa Cloud response
 -- allowlist_external_dirs is being used to allow file sensors to work
 
+## Known limitations
+
+There are few things that are either not working at this stage or are on my list to be changed. In both cases I am going to update them:
+
+- currently the state of the device (light) is saved in the text file every time HA requests a change - this makes it fast to represent the state in HA UI but it's not updating the state if it's changed by another app (for example Kasa mobile app) - I most likely will update it so HA does check the cloud state periodically and when launched initially
+- potentially the request can be made smaller if only specific value is updated - I need to research that - this may speed up device's response time
+- configuration using absolute paths may cause issues for users with unique folder structure (I'm testing on docker HA) - would love some help from linux gurus on this
+- light template doesn't allow you to change the range of temperature it supports (rom what I found online at least) - so in HA UI it displays range 153-500 that is mapped to 9500-2500 - not sure if there's an easy fix to it at this time
 
 ## Note
 
