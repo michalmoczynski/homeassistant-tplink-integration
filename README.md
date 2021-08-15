@@ -46,21 +46,21 @@ curl --location --request POST 'https://wap.tplinkcloud.com' \
 curl --location --request POST 'https://wap.tplinkcloud.com' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"method": "passthrough",
-	"params": {
-		"deviceId": "DEVICE_ID",
-		"requestData": {
-			"smartlife.iot.smartbulb.lightingservice": {
-                "transition_light_state":{
-                    "brightness":255,
-                    "color_temp":0,
-                    "hue":0,
-                    "ignore_default":1,
-                    "mode":"normal",
-                    "on_off":1,
-                    "saturation": 100,
-                    "transition_period":1000
-                }
+  "method": "passthrough",
+  "params": {
+    "deviceId": "DEVICE_ID",
+    "requestData": {
+      "smartlife.iot.smartbulb.lightingservice": {
+        "transition_light_state":{
+          "brightness":255,
+          "color_temp":0,
+          "hue":0,
+          "ignore_default":1,
+          "mode":"normal",
+          "on_off":1,
+          "saturation": 100,
+          "transition_period":1000
+        }
 			}
 		},
 		"token": "TOKEN_RECEIVED_FROM_KASAS"
