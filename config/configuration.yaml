@@ -1,0 +1,83 @@
+homeassistant:
+  allowlist_external_dirs:
+    - "/config/scripts/tplink-kasa/devices"
+
+light:
+  - platform: template
+    lights:
+      pc_light:
+        level_template: "{{ states('sensor.pc_brightness') | int * 2.55 }}"
+        value_template: "{{ states('sensor.pc_state')|int > 0 }}"
+        temperature_template: "{{ states('sensor.pc_light_temp', 'deg') | int}}"
+        color_template: "({{states('sensor.pc_hue') | int}}, {{states('sensor.pc_saturation') | int}})"
+        friendly_name: "YOUR_LIGHT_NAME"
+        turn_on:
+          - service: shell_command.sh_light_on
+            data:
+              lightid: "YOUR_LIGHT_ID - from kasa-devices"
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_state
+        turn_off:
+          - service: shell_command.sh_light_off
+            data:
+              lightid: "YOUR_LIGHT_ID - from kasa-devices"
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_state
+        set_level:
+          - service: shell_command.sh_light_brightness
+            data:
+              lightlevel: "{{ (brightness / 2.55) | int }}"
+              lightid: "YOUR_LIGHT_ID - from kasa-devices"
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_brightness              
+        set_temperature: 
+          - service: shell_command.sh_light_temp
+            data:
+              ctemp: "{{ ( 11866 - (18.7 * color_temp)) | int }}"
+              lightid: "YOUR_LIGHT_ID - from kasa-devices"
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_light_temp              
+        set_color:
+          - service: shell_command.sh_light_hue_sat
+            data:
+              hue: "{{ h }}"
+              sat: "{{ s }}"
+              lightid: "YOUR_LIGHT_ID - from kasa-devices"      
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_hue              
+          - service: homeassistant.update_entity
+            entity_id: sensor.pc_saturation              
+
+shell_command:
+  sh_light_on: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} on=1
+  sh_light_off: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} on=0
+  sh_light_brightness: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} b={{ lightlevel }}
+  sh_light_temp: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} ctemp={{ ctemp }}
+  sh_light_hue_sat: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} hue={{ hue }} sat={{ sat }} ctemp=0
+  
+sensor:
+  - platform: file
+    name: 'pc_saturation'
+    file_path: /config/scripts/tplink-kasa/devices/YOUR_LIGHT_ID.txt
+    value_template: >
+      {{ (value.split(',')[0] | int) }}
+  - platform: file
+    name: 'pc_brightness'
+    file_path: /config/scripts/tplink-kasa/devices/YOUR_LIGHT_ID.txt
+    value_template: >
+      {{ (value.split(',')[1] | int) }}
+  - platform: file
+    name: 'pc_hue'
+    file_path: /config/scripts/tplink-kasa/devices/YOUR_LIGHT_ID.txt
+    value_template: >
+      {{ (value.split(',')[2] | int) }}
+  - platform: file
+    name: 'pc_state'
+    file_path: /config/scripts/tplink-kasa/devices/YOUR_LIGHT_ID.txt
+    value_template: >
+      {{ (value.split(',')[3] | int) }}
+  - platform: file
+    name: 'pc_light_temp'
+    file_path: /config/scripts/tplink-kasa/devices/YOUR_LIGHT_ID.txt
+    value_template: >
+      {{ (value.split(',')[4] | int) }}
