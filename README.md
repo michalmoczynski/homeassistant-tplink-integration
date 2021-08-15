@@ -18,13 +18,13 @@ First you need to send your login and password to receive a token:
 curl --location --request POST 'https://wap.tplinkcloud.com' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"method": "login",
-	"params": {
-		"appType": "Kasa_Android",
-		"cloudUserName": "YOUR_KASA_LOGIN",
-		"cloudPassword": "YOUR_KASA_PASSWORD",
-		"terminalUUID": "GENERATE_A_UUID_V4"
-	}
+  "method": "login",
+  "params": {
+    "appType": "Kasa_Android",
+    "cloudUserName": "YOUR_KASA_LOGIN",
+    "cloudPassword": "YOUR_KASA_PASSWORD",
+    "terminalUUID": "GENERATE_A_UUID_V4"
+  }
 }'
 ```
 Kasa Cloud server responds with a token that can be used for authentication on all the other requests.
@@ -35,10 +35,10 @@ Below I will list some of the cloud requests I found so far.
 curl --location --request POST 'https://wap.tplinkcloud.com' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"method": "getDeviceList",
-	"params": {
-		"token": "TOKEN_RECEIVED_FROM_KASAS"
-	}
+  "method": "getDeviceList",
+  "params": {
+    "token": "TOKEN_RECEIVED_FROM_KASAS"
+  }
 }'
 ```
 - passthrough / smartlife.iot.smartbulb.lightingservice - change light settings
@@ -80,19 +80,19 @@ Parameters:
 curl --location --request POST 'https://wap.tplinkcloud.com' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"method": "passthrough",
-	"params": {
-		"deviceId": "DEVICE_ID",
-		"requestData": {
-			"system": {
-				"get_sysinfo": null
-			},
-			"emeter": {
-				"get_realtime": null
-			}
-		},
-		"token": "TOKEN_RECEIVED_FROM_KASAS"
-	}
+  "method": "passthrough",
+  "params": {
+    "deviceId": "DEVICE_ID",
+    "requestData": {
+      "system": {
+        "get_sysinfo": null
+      },
+      "emeter": {
+        "get_realtime": null
+      }
+    },
+    "token": "TOKEN_RECEIVED_FROM_KASAS"
+  }
 }'
 ```
 As a response Kasa Cloud sends details about the device configuration.
